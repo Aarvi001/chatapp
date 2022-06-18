@@ -1,9 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 const Home = () => {
     return(
-        <div>Home Page</div>
+        <div>Home Page </div>
     );
 }
 

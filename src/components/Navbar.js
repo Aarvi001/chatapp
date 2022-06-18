@@ -1,20 +1,44 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { auth, db } from "../firebase";
+import { signOut } from "firebase/auth";
+import { updateDoc, doc } from "firebase/firestore";
+//import { AuthContext } from "../context/auth";
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    return(
-        <nav>
-            <h3>
-                <Link to="/"> Aarvi Chats</Link>
-            </h3>
-            <div>
-            <Link to="/register"> Register  </Link> <br></br>
-            <Link to="/Login"> Login </Link>
-            </div>
-        </nav>
-    );
-}
+    const navigate = useNavigate();
+  //const { user } = useContext(AuthContext);
 
+  const handleSignout = async () => {
+    await updateDoc(doc(db, "users", auth.currentUser.uid), {
+      isOnline: false,
+    });
+    await signOut(auth);
+    navigate('/login');
+};
+  return (
+    <nav>
+      <h3>
+        <Link to="/">Messenger</Link>
+      </h3>
+      <div>
+        {auth.currentUser ? (
+          <>
+            <Link to="/profile">Profile</Link>
+            <button className="btn" onClick={handleSignout}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/register">  Register -  </Link> :) 
+            <Link to="/login">  - Login  </Link>
+          </>
+        )}
+      </div>
+    </nav>
+  );
+};
 
 export default Navbar;
