@@ -25,7 +25,7 @@ const Navbar = () => {
       <div>
         { user ? (
           <>
-            <Link to="/profile">Profile - </Link> :) - 
+            <Link to="/Profile">Profile - </Link> :) - 
             <button className="btn" onClick={handleSignout}>
               Logout
             </button>

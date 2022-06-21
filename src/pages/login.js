@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import {auth, db} from '../firebase';
 import { updateDoc, doc, } from 'firebase/firestore'
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const login = () => {
     const [data, setData] = useState({
@@ -67,10 +67,10 @@ const login = () => {
                     {loading ? "Logging in .... " : "Log in"}
                     </button>
                 </div>
-
+<Outlet />
             </form>
         </section>
-
+        
         );
 }
 
