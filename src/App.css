@@ -127,3 +127,68 @@ section .form{
 .text-container h3{
   text-align: center;
 }
+
+.home-container{
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  overflow: hidden;
+  height: calc(100vh - 70px);
+  width: 100vw;
+}
+.users-container{
+  margin-top: 10px;
+  border-right: 2px solid var(--color-6);
+  overflow-y: auto;
+}
+.user-wrapper{
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+.user_info{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.user-detail{
+  display: flex;
+  align-items: center;
+}
+.user-detail h4{
+  margin-left: 10px;
+}
+.avatar{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid var(--color-4);
+}
+.user-status{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.online{
+  margin-left: 5px;
+  color: rgb(42, 224, 42);
+}
+.offline{
+  color: var(--color-5);
+  margin-left: 5px;
+}
+
+.messages_container {
+  position: relative;
+  width: 100%;
+}
+.message_user {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 2px solid var(--color-6);
+}
+.no_conv {
+  font-size: 20px;
+  color: var(--color-4);
+  text-align: center;
+}
