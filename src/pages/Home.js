@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { Outlet } from 'react-router-dom';
 import { db, auth, storage } from '../firebase';
-import { collection, query, where, onSnapshot, addDoc, Timestamp, orderBy} from 'firebase/firestore';
+import { collection, query, where, onSnapshot, addDoc, Timestamp, orderBy,
+    updateDoc, setDoc, doc, getDoc} from 'firebase/firestore';
 import User  from '../components/User'
 import MessageForm from '../components/MessageForm';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
@@ -28,7 +29,7 @@ const user1 = auth.currentUser.uid;
         return () => unsub();
     }, []);
 
-    const selectUser = (user) => {
+    const selectUser = async (user) => {
         setChat(user)
         console.log(user);
 
@@ -44,7 +45,11 @@ const user1 = auth.currentUser.uid;
                 msgs.push(doc.data())
             })
             setMsgs(msgs)
-        })
+        });
+        const docSnap = await getDoc(doc(db, 'lastMsg', id))
+        if (docSnap.data() && docSnap.data().from != user1){
+            await updateDoc(doc(db, 'lastMsg', id), {unread: false});
+        }
     }
 
 console.log(msgs)
@@ -72,12 +77,26 @@ console.log(msgs)
                 createdAt: Timestamp.fromDate(new Date()),
                 media: url || "",
             });
+
+            await setDoc(doc(db, "lastMsg", id), {
+                text,
+                from: user1,
+                to: user2,
+                createdAt: Timestamp.fromDate(new Date()),
+                media: url || "",
+                unread: true,
+              });
+
             setText("");
     }
     return(
         <div className='home-container'> 
          <div className='users-container'>
-            {users.map(user => <User key = {user.uid} user={user} selectUser = {selectUser} />)}
+            {users.map(user => 
+            <User key = {user.uid} user={user}
+             user1={user1} selectUser = {selectUser}
+            chat = {chat}
+              />)}
          </div>
          <div className='messages-container'>
             {chat ? ( <>
